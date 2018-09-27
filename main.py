@@ -2,6 +2,7 @@ from tkinter import ttk
 from tkinter import *
 from tkinter.messagebox import showinfo
 import time
+import datetime
 
 def helpPopUp():
     showinfo('About', 'Source Code:\n'
@@ -9,20 +10,25 @@ def helpPopUp():
                       'Version\n'
                       '0.1')
 
-def startTimer(timer):
-    t = 1
-    while t == 1:
+def timerControl(timer, active, timerText):
+    if timer > 0:
+        timer = 0
+    print('step 1')
+    while active:
         time.sleep(1)
         timer += 1
-        print(timer)
+        print('step' + str(timer))
+        #canvas.itemconfig(timerText, text=str(datetime.timedelta(seconds=timer)))
 
 def circleChange(circle, fill, timer, active, timerText):
     if canvas.itemcget(circle, 'fill') == '' and not active:
         canvas.itemconfig(circle, fill=fill)
         active = True
+        timerControl(timer, active, timerText)
     else:
         canvas.itemconfig(circle, fill='')
         active = False
+        timerControl(timer, active, timerText)
 
 #Base Appearance
 root = Tk()
@@ -54,7 +60,7 @@ timer1Window = canvas.create_window(133, 300, anchor=CENTER, window=timer1)
 c1 = canvas.create_oval(50, 90, 216, 256, width=10, outline='#FF1D25', fill='')
 c1timer = 0
 c1timerActive = False
-c1TimerText = canvas.create_text(133, 173, anchor=CENTER, fill='white', font=('Consolas', 18), text='00:00')
+c1TimerText = canvas.create_text(133, 173, anchor=CENTER, fill='white', font=('Consolas', 18), text='0:00:00')
 c1Title = Entry(root, justify=CENTER)
 c1Title.place(x=133, y=50, anchor=CENTER)
 
@@ -63,7 +69,7 @@ timer2Window = canvas.create_window(400, 300, anchor=CENTER, window=timer2)
 c2 = canvas.create_oval(317, 90, 483, 256, width=10, outline='#3FA9F5')
 c2timer = 0
 c2timerActive = False
-c2TimerText = canvas.create_text(400, 173, anchor=CENTER, fill='white', font=('Consolas', 18), text='00:00')
+c2TimerText = canvas.create_text(400, 173, anchor=CENTER, fill='white', font=('Consolas', 18), text='0:00:00')
 c2Title = Entry(root, justify=CENTER)
 c2Title.place(x=400, y=50, anchor=CENTER)
 
@@ -72,7 +78,7 @@ timer3Window = canvas.create_window(667, 300, anchor=CENTER, window=timer3)
 c3 = canvas.create_oval(584, 90, 750, 256, width=10, outline='#7AC943')
 c3timer = 0
 c3timerActive = False
-c3TimerText = canvas.create_text(667, 173, anchor=CENTER, fill='white', font=('Consolas', 18), text='00:00')
+c3TimerText = canvas.create_text(667, 173, anchor=CENTER, fill='white', font=('Consolas', 18), text='0:00:00')
 c3Title = Entry(root, justify=CENTER)
 c3Title.place(x=667, y=50, anchor=CENTER)
 
