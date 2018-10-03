@@ -1,7 +1,10 @@
+#  (c) Adam Sawyer. 2018
+
 from tkinter import ttk
 from tkinter import *
 from tkinter.messagebox import showinfo
 import datetime
+import os.path
 
 class Timer:
     def __init__(self, canvas, count):
@@ -32,7 +35,7 @@ class Timer:
         startbtnWin = canvas.create_window(btncnt-38, 300, anchor=CENTER, window=startbtn)
         pausebtn = ttk.Button(text='Pause', command=lambda: self.pause(timerText))
         pausebtnWin = canvas.create_window(btncnt+38, 300, anchor=CENTER, window=pausebtn)
-        stopbtn = ttk.Button(text='Stop', command=lambda: self.stop(circle, fill, timerText))
+        stopbtn = ttk.Button(text='Stop', command=lambda: self.stop(circle, fill, timerText, title))
         stopbtnWin = canvas.create_window(btncnt, 325, anchor=CENTER, window=stopbtn)
 
     def stopwatch(self, run, timerText):
@@ -58,8 +61,9 @@ class Timer:
             self.active = True
             self.stopwatch(True, timerText)
 
-    def stop(self, circle, fill, timerText):
+    def stop(self, circle, fill, timerText, title):
         if self.active:
+            self.OutputLog(title, timerText)
             self.circleChange(circle, fill)
             self.active = False
             self.timer = 0
@@ -70,6 +74,20 @@ class Timer:
             self.active = False
             self.canvas.itemconfig(timerText, fill='black')
             self.stopwatch(False, timerText)
+
+    def OutputLog(self, title, timerText):
+        circTitle = title.get()
+        timer = self.canvas.itemcget(timerText, 'text')
+        now = str(datetime.datetime.now().date())
+        if os.path.isfile('outputlog.txt'):
+            f = open('outputlog.txt', 'a')
+            content = '\n' + now + ' | ' + circTitle + ' | ' + timer
+        else:
+            f = open('outputlog.txt', 'w')
+            content = now + ' | ' + circTitle + ' | ' + timer
+        f.write(content)
+        f.close()
+        pass
 
 class UI:
     #Base Appearance-----------------------------------------------------
