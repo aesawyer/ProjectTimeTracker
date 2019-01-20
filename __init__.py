@@ -4,6 +4,7 @@ from tkinter import *
 from tkinter.messagebox import showinfo
 import tracker_alarms
 import tracker_calendar
+import tracker_excel
 
 class UI:
     #Base Appearance-----------------------------------------------------
@@ -25,7 +26,7 @@ class UI:
         self.menus.add_cascade(label='File', menu=self.filemenu)
         self.menus.add_cascade(label='Help', menu=self.helpmenu)
 
-        self.filemenu.add_command(label='Export Report', command=self.soonPopUp)
+        self.filemenu.add_command(label='Export Report', command=self.export)
         self.filemenu.add_command(label='CALENDAR', command=self.showCalendar)
         self.filemenu.add_separator()
         self.filemenu.add_command(label='Quit', command=self.quit)
@@ -34,6 +35,11 @@ class UI:
 
         for t in range(3):
             tracker_alarms.Timer(self.canvas, t+1, root)
+
+    @staticmethod
+    def export():
+        #TEST_LIST = [1, 2, 3, 4]
+        tracker_excel.export_xls()
 
     @staticmethod
     def soonPopUp():
